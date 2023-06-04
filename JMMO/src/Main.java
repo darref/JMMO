@@ -23,7 +23,7 @@ public class Main extends BasicGame
 
 
         try {
-            mapLayers.add(new MapLocal("C:/Users/jorda/Desktop/JMMO/ressources/tilesets/ground1.png"));
+            mapLayers.add(new MapLocal(System.getProperty("user.dir").replace("\\" , "/") + "/ressources/tilesets/ground1.png"));
             //mapLayers.add(new MapLocal("C:/Users/jorda/Desktop/JMMO/ressources/tilesets/Trees.png"));
 
         } catch (IOException e) {

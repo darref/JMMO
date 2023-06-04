@@ -36,7 +36,7 @@ public class MapLocal
                 String receivedMessage = null;
                 try {
                     receivedMessage = n.receive();
-                    System.out.println(receivedMessage);
+                    //System.out.println(receivedMessage);
                 } catch (IOException e) {
                     System.out.println("message non reçu");
                     throw new RuntimeException(e);
@@ -45,7 +45,7 @@ public class MapLocal
                 if(receivedMessage.contains("okUpdateChunk"))
                 {
                     receivedMessage.replaceAll("okUpdateChunk" , "");
-                    System.out.println(receivedMessage +"------------");
+                    //System.out.println(receivedMessage +"------------");
                     String regex = "\\[(-?\\d+),(-?\\d+)\\]";
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(receivedMessage);
@@ -55,7 +55,7 @@ public class MapLocal
                         int idy = Integer.parseInt(matcher.group(2));
 
                         ChunkCoordinates chc = new ChunkCoordinates(idx ,idy);
-                        System.out.println(chc +"------------");
+                        //System.out.println(chc +"------------");
 
                         if(chunks.get(chc) != null )
                             chunks.get(chc).parseChunkUpdateMessage(receivedMessage);
@@ -68,7 +68,7 @@ public class MapLocal
                                 } else {
                                     chunks.put(chc, new MapChunk(new Vector2f(idx, idy)));
                                     chunks.get(chc).parseChunkUpdateMessage(receivedMessage);
-                                    System.out.println("Creation et remplissage d'un nouveau chunk");
+                                    //System.out.println("Creation et remplissage d'un nouveau chunk");
                                 }
                             } catch (SlickException e) {
                                 System.out.println("Impossible d'accéder à ce chunk");

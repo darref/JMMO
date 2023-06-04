@@ -29,10 +29,10 @@ public class Player
 
 
     public Player(Vector<MapLocal> mapLayersRef) throws SlickException, IOException {
-        playerWalkFront = new Animation("C:/Users/jorda/Desktop/JMMO/ressources/animations/character/walk/front" , 60);
-        playerWalkTop = new Animation("C:/Users/jorda/Desktop/JMMO/ressources/animations/character/walk/Top" , 60);
-        playerWalkLeft = new Animation("C:/Users/jorda/Desktop/JMMO/ressources/animations/character/walk/Left" , 60);
-        playerWalkRight = new Animation("C:/Users/jorda/Desktop/JMMO/ressources/animations/character/walk/Right" , 60);
+        playerWalkFront = new Animation(System.getProperty("user.dir").replace("\\" , "/") + "/ressources/animations/character/walk/front" , 60);
+        playerWalkTop = new Animation(System.getProperty("user.dir").replace("\\" , "/") + "/ressources/animations/character/walk/Top" , 60);
+        playerWalkLeft = new Animation(System.getProperty("user.dir").replace("\\" , "/") + "/ressources/animations/character/walk/Left" , 60);
+        playerWalkRight = new Animation(System.getProperty("user.dir").replace("\\" , "/") + "/ressources/animations/character/walk/Right" , 60);
         playerWalkFront.setSize(100,100);
         playerWalkTop.setSize(100,100);
         playerWalkLeft.setSize(100,100);
@@ -48,7 +48,7 @@ public class Player
 
     public void init(GameContainer container)
     {
-        setLocation(0.0f,0.0f);
+        //setLocation(0.0f,0.0f);
 
         Thread manageInputsThread = new Thread(  () ->
         {

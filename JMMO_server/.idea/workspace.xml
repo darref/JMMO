@@ -8,23 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e5149f3b-f618-4c06-9ec8-9e6ca1f967df" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/slick2D.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JMMO_server.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Chronometer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ChunkCoordinates.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/FileReaderWriter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MapChunk.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/NetworkConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ServerMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ServerPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JMMO/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../JMMO/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JMMO/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../JMMO/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JMMO/src/MapLocal.java" beforeDir="false" afterPath="$PROJECT_DIR$/../JMMO/src/MapLocal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../JMMO/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/../JMMO/src/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +29,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="2OpzTcvqZ4kbtNaYu26GufNrXEa" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -53,7 +42,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/jorda/Desktop/JMMO",
+    "last_opened_file_path": "C:/Users/jorda/Desktop/JMMO_ALL/JMMO_server",
     "onboarding.tips.debug.path": "C:/Users/jorda/Desktop/JMMO_server/src/Main.java",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.0",
