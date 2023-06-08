@@ -19,10 +19,10 @@ public class MapLocal
 
     private ChunkCoordinates currentPlayerChunk = new ChunkCoordinates(0 , 0);
 
-    public MapLocal(String tilesetImagePath) throws SlickException, IOException {
+    public MapLocal(Socket mainSocket ,String tilesetImagePath) throws SlickException, IOException {
         tileset = new TileSet(tilesetImagePath, 32);
 
-        n = new NetworkConnection(new Socket(InetAddress.getLocalHost(), 7777));
+        n = new NetworkConnection(mainSocket);
         chunks = new HashMap<>();
     }
 

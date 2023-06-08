@@ -1,11 +1,8 @@
 import org.newdawn.slick.geom.Vector2f;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,8 +15,9 @@ public class ServerPlayer
     Semaphore semaphore = new Semaphore(1);
     private final NetworkConnection nc;
     private final float speed = 1000;
-    public int locationX ;
-    public int locationY ;
+    public  AtomicReference<Vector2f> position = new AtomicReference<Vector2f>(new Vector2f(555.0f,555.0f));
+
+    public ServerMap mapRef;
 
 
 
@@ -28,6 +26,7 @@ public class ServerPlayer
     {
         this.nc = new NetworkConnection(s);
         this.serverRef = server;
+
     }
 
     public   void init()
@@ -38,11 +37,13 @@ public class ServerPlayer
         {
             while(true)
             {
+
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+
                 String receivedMessage = "";
                 try {
                     receivedMessage = nc.receive();
@@ -52,24 +53,30 @@ public class ServerPlayer
 
                 }
                 System.out.println(receivedMessage);
-                if(receivedMessage.contains("[clientpos]")) {
-                    receivedMessage.replace("[clientpos]" , "");
+                if(receivedMessage.contains("[clientpos]"))
+                {
+                    receivedMessage = receivedMessage.replace("[clientpos]" , "");
                     String regex = "(-?\\d*\\.\\d*)\\|(-?\\d*\\.\\d*)";
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(receivedMessage);
-                    //System.out.println(receivedMessage);
-                    if (matcher.find()) {
+                    System.out.println(receivedMessage);
+                    if (matcher.find())
+                    {
                         String xStr = matcher.group(1);
                         String yStr = matcher.group(2);
                         float x = Float.parseFloat(xStr);
                         float y = Float.parseFloat(yStr);
                         System.out.println("x et y valent: " + x + " " + y);
 
-                        setLocation((int)x,(int)y);
+                        synchronized (position) {
+                            position.set(new Vector2f(x,y));
+                            //position.x = x;
+                            //position.y = y;
+                        }
                     }
                         //System.out.println("Nouvelle position player envoyée par le client: " + (int)getLocation().x + " | " + (int)getLocation().y);
-                    }
                 }
+            }
 
 
         });
@@ -83,38 +90,15 @@ public class ServerPlayer
         nc.close();
     }
 
-    public int getLocationX() {
-
-        if (semaphore.tryAcquire()) {
-            try {
-                return locationX;
-            } finally {
-                semaphore.release();
-            }
+    public void setPosition(Vector2f newPosition) {
+        synchronized (position) {
+            position.set(newPosition);
         }
-        return -1;
-    }
-    public int getLocationY() {
-
-        if (semaphore.tryAcquire()) {
-            try {
-                return locationY;
-            } finally {
-                semaphore.release();
-            }
-        }
-        return -1;
     }
 
-    public void setLocation(int x, int y) {
-        if (semaphore.tryAcquire()) {
-            try {
-                locationX = x;
-                locationY = y;
-                System.out.println("-----------setlocation--------" + x + " " + y);
-            } finally {
-                semaphore.release();
-            }
+    public Vector2f getPosition() {
+        synchronized (position) {
+            return position.get();
         }
     }
 }

@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +15,7 @@ public class MapChunk
         this.idx = idx;
         this.idy = idy;
     }
-    public void randomizedGeneration()
+    public void randomizeFloor()
     {
             for(int i=0;i<20;i++)
             {
@@ -34,7 +35,7 @@ public class MapChunk
 
     }
 
-    public String createMessageChunk()
+    public String generateFloorChunkDatas()
     {
         String chunkDatas ="";
         for(int i=0;i<20;i++)
@@ -50,7 +51,7 @@ public class MapChunk
 
     public void saveInFile()
     {
-        String chunkDatas = createMessageChunk().replaceAll("okUpdateChunk" , "");
+        String chunkDatas = generateFloorChunkDatas().replaceAll("okUpdateChunk" , "");
         FileReaderWriter.writeToFile("map/chunks/MapChunk[" + idx + "," + idy + "].chunk" , chunkDatas);
     }
 
@@ -73,5 +74,10 @@ public class MapChunk
             //System.out.println(group);
             chunk[firstNumber][secondNumber] = thirdNumber;
         }
+    }
+
+    public void addSceneries()
+    {
+
     }
 }

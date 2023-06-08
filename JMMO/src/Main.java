@@ -2,6 +2,9 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Vector;
 
 
@@ -9,6 +12,7 @@ public class Main extends BasicGame
 {
     private Player player;
     private Vector<MapLocal> mapLayers = new Vector<MapLocal>();
+    private Socket mainSocket = new Socket(InetAddress.getLocalHost() , 7777);
 
     public Main(String title) throws SlickException, IOException {
         super(title);
@@ -22,8 +26,9 @@ public class Main extends BasicGame
     public void init(GameContainer container) throws SlickException {
 
 
+
         try {
-            mapLayers.add(new MapLocal(System.getProperty("user.dir").replace("\\" , "/") + "/ressources/tilesets/ground1.png"));
+            mapLayers.add(new MapLocal(mainSocket , System.getProperty("user.dir").replace("\\" , "/") + "/ressources/tilesets/ground1.png"));
             //mapLayers.add(new MapLocal("C:/Users/jorda/Desktop/JMMO/ressources/tilesets/Trees.png"));
 
         } catch (IOException e) {
@@ -35,7 +40,7 @@ public class Main extends BasicGame
         // Initialisation du jeu
 
         try {
-            player = new Player(mapLayers);
+            player = new Player(mainSocket , mapLayers);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

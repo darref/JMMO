@@ -28,7 +28,7 @@ public class Player
     private Vector<MapLocal> mapLayersRef;
 
 
-    public Player(Vector<MapLocal> mapLayersRef) throws SlickException, IOException {
+    public Player(Socket mainSocket , Vector<MapLocal> mapLayersRef) throws SlickException, IOException {
         playerWalkFront = new Animation(System.getProperty("user.dir").replace("\\" , "/") + "/ressources/animations/character/walk/front" , 60);
         playerWalkTop = new Animation(System.getProperty("user.dir").replace("\\" , "/") + "/ressources/animations/character/walk/Top" , 60);
         playerWalkLeft = new Animation(System.getProperty("user.dir").replace("\\" , "/") + "/ressources/animations/character/walk/Left" , 60);
@@ -39,7 +39,7 @@ public class Player
         playerWalkRight.setSize(100,100);
 
         currentAnimation = playerWalkFront;
-        n = new NetworkConnection(new Socket(InetAddress.getLocalHost() , 7777));
+        n = new NetworkConnection(mainSocket);
         chrono = new Chronometer();
         chrono.init();
 
@@ -90,7 +90,7 @@ public class Player
             while (true)
             {
                 try {
-                    Thread.sleep(5);
+                    Thread.sleep(50);
                     n.send("[clientpos]" + getLocation().x + "|" + getLocation().y);
                     System.out.println(getLocation());
                 } catch (IOException e) {
