@@ -1,4 +1,10 @@
 import java.io.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileReaderWriter {
     public static void writeToFile(String filename, String content)
@@ -55,5 +61,22 @@ public class FileReaderWriter {
     public static boolean fileExists(String filename) {
         File file = new File(filename);
         return file.exists();
+    }
+
+    public static List<String> getFilePaths(String directoryPath) throws IOException {
+        List<String> filePaths = new ArrayList<>();
+        Path directory = Paths.get(directoryPath);
+
+        if (Files.isDirectory(directory)) {
+            try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory)) {
+                for (Path path : directoryStream) {
+                    if (Files.isRegularFile(path)) {
+                        filePaths.add(path.toString());
+                    }
+                }
+            }
+        }
+
+        return filePaths;
     }
 }

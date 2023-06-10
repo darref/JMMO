@@ -149,7 +149,7 @@ public class Player
 
     public void update(GameContainer container, float delta)
     {
-            if(mapLayersRef.get(0) != null)
+            if(mapLayersRef.get(0).chunks.get(mapLayersRef.get(0).currentPlayerChunk) != null)
                 if(mapLayersRef.get(0).chunks.get(mapLayersRef.get(0).currentPlayerChunk).tilemap[0][0] == 1000)
                     isSwimming = true;
                 else

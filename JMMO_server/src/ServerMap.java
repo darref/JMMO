@@ -1,6 +1,12 @@
+import jdk.jshell.execution.Util;
+import org.newdawn.slick.geom.Vector2f;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ServerMap
 {
@@ -8,7 +14,7 @@ public class ServerMap
     private final Server serverRef;
     public volatile ServerPlayer playerRef;
     private final Map<ChunkCoordinates, MapChunk> chunks ;
-    private Vector<Scenery> sceneries;
+    private Vector<Tree> treesVector = new Vector<>();
     private ChunkCoordinates currentPlayerChunk ;
 
     public ServerMap(Socket s , Server server ) throws IOException
@@ -24,7 +30,7 @@ public class ServerMap
     {
 
 
-        Thread chunkUpdateSendThread = new Thread( () ->
+        Thread chunksUpdateSendThread = new Thread( () ->
         {
             while(true) {
                 try {
@@ -82,8 +88,50 @@ public class ServerMap
                 }
             }
         });
-        chunkUpdateSendThread.start();
+        chunksUpdateSendThread.start();
 
+        Thread treesUpdateSendThread = new Thread( () ->
+        {
+            try {
+                List<String> PathsList = FileReaderWriter.getFilePaths(System.getProperty("user.dir").replace("\\" , "/") + "/map/trees");
+                for(String s : PathsList)
+                {
+                    String contenuFicher = FileReaderWriter.readFromFile(s);
+                    String regex = "location=(\\d+),(\\d+)";
+
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(contenuFicher);
+                    if(matcher.find())
+                    {
+                        Tree t = new Tree();
+                        treesVector.add(t);
+                        t.setLocation(Float.parseFloat(matcher.group(1)) , Float.parseFloat(matcher.group(2)) );
+                    }
+
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+
+
+            while (true) {
+                synchronized (treesVector) {
+                    for (Tree t : treesVector) {
+                        if (t.location.distance(playerRef.getPosition()) < 5000) {
+                            try {
+                                nc.send("ThereIsATreeAt[" + t.location.x + "|" + t.location.y + "]");
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        });
+        treesUpdateSendThread.start();
     }
 
     private void addOrNotSceneries() throws IOException {
@@ -94,9 +142,17 @@ public class ServerMap
     }
 
     private void addOrNotForest() {
-        if(!Utils.randomBool())
-            return;
 
+        int numberOfTreesInTheForest = Utils.randomRanged(1,50);
+        Vector2f coordinatesOfTheForest = new Vector2f(currentPlayerChunk.x *(20*32) + (Utils.randomBool()? -13*(20*32) : 13*(20*32)) , currentPlayerChunk.y *(20*32) + (Utils.randomBool()? -13*(20*32) : 13*(20*32)));
+        for(int i=0;i < numberOfTreesInTheForest ; i++)
+        {
+            Tree t = new Tree();
+            t.setLocation(coordinatesOfTheForest.x + (Utils.randomBool()? -Utils.randomRanged(50,700) : +Utils.randomRanged(50,700)) ,
+                    coordinatesOfTheForest.y + (Utils.randomBool()? -Utils.randomRanged(50,700) : +Utils.randomRanged(50,700)));
+            FileReaderWriter.writeToFile(System.getProperty("user.dir").replace("\\" , "/") + "/map/trees/tree["+t.location.x + "," + t.location.y + "].tree"    , "location=" + t.location.x + "," + t.location.y) ;
+            treesVector.add(t);
+        }
     }
 
     private void addOrNotReliefs() {

@@ -12,6 +12,7 @@ public class MapLocal
 {
     public Player playerRef;
     public  Map<ChunkCoordinates, MapChunk> chunks;
+    private Vector<Tree> treesVector = new Vector<Tree>();
     private TileSet tileset;
     private NetworkConnection n;
 
@@ -87,6 +88,44 @@ public class MapLocal
             }
         });
         receiveChunkUpdateThread.start();
+        /*
+        Thread receiveTreesUpdate = new Thread( () ->
+        {
+            while(true)
+            {
+                String message = "";
+                try {
+                    message = n.receive();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                if(message.contains("ThereIsATreeAt"))
+                {
+                    Tree t = null;
+                    try {
+                        t = new Tree(new Vector2f(300,300));
+                    } catch (SlickException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String regex = "\\[(\\d+)\\|(\\d+)\\]";
+
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(message);
+
+                    if (matcher.find()) {
+                        t.setLocation(Float.parseFloat(matcher.group(1)) , Float.parseFloat(matcher.group(2)));
+                    }
+                    boolean existAlready = false;
+                    for(Tree tr : treesVector)
+                        if(tr.location.equals(t.location) )
+                            existAlready = true;
+                    if(!existAlready)
+                        treesVector.add(t);
+                }
+            }
+
+        });
+        receiveTreesUpdate.start();*/
     }
 
     public void draw()
@@ -102,15 +141,13 @@ public class MapLocal
                             //System.out.println("dessin du chunk " + i + " , " + j );
                         }
                         else {
-                            System.out.println("chunk introuvable" );
+                            //System.out.println("chunk introuvable" );
                         }
 
         }catch(ArrayIndexOutOfBoundsException e){}
 
-        if(chunks.get(currentPlayerChunk) != null)
-            for(int i = 0 ; i < 20 ; i++)
-                for(int j = 0 ; j < 20 ; j++)
-                    System.out.println("tilemap[i][j] = " + chunks.get(currentPlayerChunk).tilemap[i][j]);
+        for(Tree t :treesVector)
+            t.draw();
 
     }
 
@@ -132,8 +169,8 @@ public class MapLocal
 
     public void update()
     {
-        currentPlayerChunk.x = (int)(playerRef.getLocation().x / (20*32) );
-        currentPlayerChunk.y = (int)(playerRef.getLocation().y / (20*32) + (playerRef.getLocation().y>0? 0 : -1)) ;
+        currentPlayerChunk.x = (int)(playerRef.getLocation().x / (20*32)) + (playerRef.getLocation().x>0? 0 : -1);
+        currentPlayerChunk.y = (int)(playerRef.getLocation().y / (20*32)) + (playerRef.getLocation().y>0? 0 : -1) ;
         System.out.println("current chunk player = " + currentPlayerChunk.x + " " + currentPlayerChunk.y);
     }
 }

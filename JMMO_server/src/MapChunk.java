@@ -1,3 +1,5 @@
+import org.newdawn.slick.geom.Vector2f;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,6 +67,7 @@ public class MapChunk
             chunk[firstNumber][secondNumber] = thirdNumber;
         }
     }
+
 
     public void makeLake() {
         for(int i=0;i<20;i++)

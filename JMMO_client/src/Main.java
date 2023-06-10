@@ -66,6 +66,9 @@ public class Main extends BasicGame
         // Dessin du jeu
         for(int i=0 ; i < mapLayers.size() ; i++)
             mapLayers.get(i).draw();
+        //
+
+        //
         player.draw();
 
     }
