@@ -21,7 +21,7 @@ public class FileReaderWriter {
             if (created) {
                 System.out.println("Le fichier a été créé avec succès.");
             } else {
-                System.out.println("Le fichier existe déjà.");
+                System.out.println("Le fichier existe déjà , nous allons l'écraser.");
             }
 
             // Écrire la chaîne de caractères dans le fichier

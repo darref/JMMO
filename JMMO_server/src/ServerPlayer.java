@@ -52,21 +52,21 @@ public class ServerPlayer
                     throw new RuntimeException(e);
 
                 }
-                System.out.println(receivedMessage);
+                //System.out.println(receivedMessage);
                 if(receivedMessage.contains("[clientpos]"))
                 {
                     receivedMessage = receivedMessage.replace("[clientpos]" , "");
                     String regex = "(-?\\d*\\.\\d*)\\|(-?\\d*\\.\\d*)";
                     Pattern pattern = Pattern.compile(regex);
                     Matcher matcher = pattern.matcher(receivedMessage);
-                    System.out.println(receivedMessage);
+                    //System.out.println(receivedMessage);
                     if (matcher.find())
                     {
                         String xStr = matcher.group(1);
                         String yStr = matcher.group(2);
                         float x = Float.parseFloat(xStr);
                         float y = Float.parseFloat(yStr);
-                        System.out.println("x et y valent: " + x + " " + y);
+                        //System.out.println("x et y valent: " + x + " " + y);
 
                         synchronized (position) {
                             position.set(new Vector2f(x,y));

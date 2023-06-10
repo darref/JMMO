@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JMMO_server.iml" filepath="$PROJECT_DIR$/JMMO_server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JMMO_server1.iml" filepath="$PROJECT_DIR$/JMMO_server1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
     </modules>
   </component>
 </project>

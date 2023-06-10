@@ -7,6 +7,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="slick2D" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="slick2D1" level="project" />
+    <orderEntry type="module" module-name="lib" />
   </component>
 </module>

@@ -1,5 +1,3 @@
-import java.util.Random;
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,21 +19,13 @@ public class MapChunk
             {
                 for(int j=0;j<20;j++)
                 {
-                    int min = 0;
-                    int max = 63;
-                    Random random = new Random();
-                    int randomNumber = random.nextInt(max - min + 1) + min;
-                    //System.out.println(randomNumber);
-                    chunk[i][j] = randomNumber;
-
+                    chunk[i][j] = Utils.randomRanged(0,63);
                 }
 
             }
-
-
     }
 
-    public String generateFloorChunkDatas()
+    public String generateChunkDatas()
     {
         String chunkDatas ="";
         for(int i=0;i<20;i++)
@@ -51,7 +41,7 @@ public class MapChunk
 
     public void saveInFile()
     {
-        String chunkDatas = generateFloorChunkDatas().replaceAll("okUpdateChunk" , "");
+        String chunkDatas = generateChunkDatas().replaceAll("okUpdateChunk" , "");
         FileReaderWriter.writeToFile("map/chunks/MapChunk[" + idx + "," + idy + "].chunk" , chunkDatas);
     }
 
@@ -76,8 +66,15 @@ public class MapChunk
         }
     }
 
-    public void addSceneries()
-    {
+    public void makeLake() {
+        for(int i=0;i<20;i++)
+        {
+            for(int j=0;j<20;j++)
+            {
+                chunk[i][j] = 1000;
+            }
+
+        }
 
     }
 }

@@ -41,11 +41,13 @@ public class ServerMap
                     }
 
 
-                    int abcisseMinChunkToLoad = currentPlayerChunk.x - 4;
-                    int ordonneeMinChunkToLoad = currentPlayerChunk.y - 4;
-                    int abcisseMaxChunkToLoad = currentPlayerChunk.x + 4;
-                    int ordonneeMaxChunkToLoad = currentPlayerChunk.y + 4;
+                    int abcisseMinChunkToLoad = currentPlayerChunk.x - 10;
+                    int ordonneeMinChunkToLoad = currentPlayerChunk.y - 10;
+                    int abcisseMaxChunkToLoad = currentPlayerChunk.x + 10;
+                    int ordonneeMaxChunkToLoad = currentPlayerChunk.y + 10;
 
+
+                    boolean mapHasBeenExtended = false;
                     for (int i = abcisseMinChunkToLoad; i <= abcisseMaxChunkToLoad; i++)
                     {
                         for (int j = ordonneeMinChunkToLoad; j <= ordonneeMaxChunkToLoad; j++)
@@ -57,25 +59,23 @@ public class ServerMap
                             if (!FileReaderWriter.fileExists("map/chunks/MapChunk[" + i + "," + j + "].chunk")) {
                                 chunk.randomizeFloor();
                                 chunk.saveInFile();
-                                this.addOrNotSceneries();
+                                mapHasBeenExtended = true;
                             } else {
                                 chunk.readFromFile("map/chunks/MapChunk[" + i + "," + j + "].chunk");
                             }
-                            String chunkMessage = chunk.generateFloorChunkDatas();
+                            String chunkMessage = chunk.generateChunkDatas();
                             //System.out.println(chunkMessage);
-                            Thread.sleep(10);
+                            //Thread.sleep(10);
                             nc.send(chunkMessage);
                             //
 
                         }
                     }
+                    if(mapHasBeenExtended)
+                        this.addOrNotSceneries();
                     //
 
                 } catch (IOException e) {
-                    System.out.println("current chunk player = " + currentPlayerChunk.x + " " + currentPlayerChunk.y);
-
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
                     System.out.println("current chunk player = " + currentPlayerChunk.x + " " + currentPlayerChunk.y);
 
                     throw new RuntimeException(e);
@@ -86,11 +86,49 @@ public class ServerMap
 
     }
 
-    private void addOrNotSceneries()
-    {
+    private void addOrNotSceneries() throws IOException {
         addOrNotLake();
         addOrNotReliefs();
         addOrNotForest();
+
+    }
+
+    private void addOrNotForest() {
+        if(!Utils.randomBool())
+            return;
+
+    }
+
+    private void addOrNotReliefs() {
+        if(!Utils.randomBool())
+            return;
+
+    }
+
+    private void addOrNotLake() throws IOException {
+
+        boolean negativeAbcisse = Utils.randomBool();
+        boolean negativeOrdonnee = Utils.randomBool();
+        ChunkCoordinates lakeCenter = new ChunkCoordinates(currentPlayerChunk.x  + (negativeAbcisse? -15 : 15) , currentPlayerChunk.y + (negativeOrdonnee? -15 : 15));
+        System.out.println("le centre du lac est :" + lakeCenter.x + " " + lakeCenter.y);
+        int lakeSizeX = Utils.randomRanged(1,4);
+        int lakeSizeY = Utils.randomRanged(1,4);
+
+        if(chunks.get(lakeCenter) == null)
+            chunks.put(lakeCenter , new MapChunk(lakeCenter.x , lakeCenter.y));
+        chunks.get(lakeCenter).makeLake();
+        chunks.get(lakeCenter).saveInFile();
+        nc.send(chunks.get(lakeCenter).generateChunkDatas());
+        for (int i=0; i < lakeSizeX ; i++)
+            for(int j = 0 ; j < lakeSizeY ; j++)
+            {
+                System.out.println(i + " " + j + "= lakesize");
+                if(chunks.get(new ChunkCoordinates(lakeCenter.x + i, lakeCenter.y + j)) == null)
+                    chunks.put(new ChunkCoordinates(lakeCenter.x + i, lakeCenter.y + j) , new MapChunk(lakeCenter.x + i, lakeCenter.y + j));
+                chunks.get(new ChunkCoordinates(lakeCenter.x + i, lakeCenter.y + j)).makeLake();
+                chunks.get(new ChunkCoordinates(lakeCenter.x + i, lakeCenter.y + j)).saveInFile();
+                nc.send(chunks.get(new ChunkCoordinates(lakeCenter.x + i, lakeCenter.y + j)).generateChunkDatas());
+            }
 
     }
 
